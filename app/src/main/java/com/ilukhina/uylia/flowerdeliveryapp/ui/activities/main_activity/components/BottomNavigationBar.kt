@@ -1,17 +1,27 @@
-package com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity
+package com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Text
 import androidx.compose.material3.Badge
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.BottomNavItem
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavItem>,
@@ -33,9 +43,9 @@ fun BottomNavigationBar(
             BottomNavigationItem(
                 selected = selected,
                 onClick = { OnItemClick(item) },
-                selectedContentColor = Color.Blue.copy(1F),
-                unselectedContentColor = Color.Gray.copy(0.9f),
-                alwaysShowLabel = true,
+                selectedContentColor = Color.Black.copy(1F),
+                unselectedContentColor = Color.Gray.copy(0.3f),
+                alwaysShowLabel = false,
                 label = { Text(
                     text = item.name,
                     textAlign = TextAlign.Center,

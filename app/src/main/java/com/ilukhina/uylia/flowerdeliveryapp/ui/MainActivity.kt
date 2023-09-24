@@ -1,4 +1,4 @@
-package com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity
+package com.ilukhina.uylia.flowerdeliveryapp.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -49,10 +49,7 @@ fun MainScreen() {
 
     val navHostController = rememberNavController()
 
-    var isHomeButtonPressed by remember { mutableStateOf(true) }
-    var isShoppingCartButtonPressed by remember { mutableStateOf(false) }
-    var isOrdersButtonPressed by remember { mutableStateOf(false) }
-    Scaffold(
+      Scaffold(
         topBar = {
             TopAppBar(title = {Text(text = "Доставка цветов")})
         },
