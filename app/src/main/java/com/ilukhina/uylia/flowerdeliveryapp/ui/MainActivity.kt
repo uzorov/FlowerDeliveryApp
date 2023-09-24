@@ -16,8 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.Navigation
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.components.BottomNavigationBar
@@ -26,8 +26,10 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.theme.FlowerDeliveryAppTheme
 
 
 class MainActivity : ComponentActivity() {
+    private lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         setContent {
             FlowerDeliveryAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    MainScreen(viewModel)
                 }
             }
         }
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
 
     val navHostController = rememberNavController()
 
@@ -66,13 +68,8 @@ fun MainScreen() {
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Navigation(navController = navHostController)
+            Navigation(navController = navHostController,viewModel)
         }
     }
 }
 
-@Preview
-@Composable
-fun MainScreenPreview() {
-    MainScreen()
-}

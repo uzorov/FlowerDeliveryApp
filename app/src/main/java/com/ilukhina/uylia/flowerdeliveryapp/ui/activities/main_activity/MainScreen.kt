@@ -1,5 +1,6 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,19 +40,19 @@ import androidx.compose.ui.unit.sp
 import com.guru.composecookbook.meditation.ui.spacerHeight10
 import com.guru.composecookbook.meditation.ui.spacerHeight20
 import com.ilukhina.uylia.flowerdeliveryapp.R
+import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.components.FlowerCard
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.FlowerProvider
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
     //Экран с букетами
-    MainScreenContent()
+    MainScreenContent(viewModel)
 }
 
 @Composable
-fun MainScreenContent() {
-
+fun MainScreenContent(viewModel: MainViewModel) {
     //Можно загрузить из базы данных
         val flowerItemsForFirstSection = remember {
             mutableStateOf(FlowerProvider.flowerItems.take(5))
@@ -74,7 +75,7 @@ fun MainScreenContent() {
                     spacerHeight10()
                     DiscoverFlowersSection()
                     spacerHeight20()
-                    TheFirstFlowerSection(flowerItemsForFirstSection)
+                    TheFirstFlowerSection(flowerItemsForFirstSection,viewModel)
                     spacerHeight20()
                     TheSecondFlowerSection(flowerItemsForSecondSection)
                 }
@@ -122,8 +123,7 @@ fun DiscoverFlowersSection() {
 }
 
 @Composable
-fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>) {
-
+fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel: MainViewModel) {
     val context = LocalContext.current
 
     Column {
@@ -149,10 +149,11 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>) {
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .clickable {
-                            //Здесь можно обработать событие добавления в корзину по клику
+                            viewModel.addFlowerItem(flowerItems.value[it])
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()
+                            Log.d("TEST",viewModel.getList().toString())
                         }
                 )
             }
