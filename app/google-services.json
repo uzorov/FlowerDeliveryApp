@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "466265636801",
+    "firebase_url": "https://flowerdelivireyapp-default-rtdb.firebaseio.com",
+    "project_id": "flowerdelivireyapp",
+    "storage_bucket": "flowerdelivireyapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466265636801:android:17201425aae8dfae793940",
+        "android_client_info": {
+          "package_name": "com.ilukhina.uylia.flowerdeliveryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5ZF46cDsZdIkOSFCw5kuRWVhdfs6_RMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

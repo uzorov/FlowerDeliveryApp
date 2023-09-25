@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -59,6 +60,10 @@ dependencies {
 
     //Glide Library to download images from the Internet using URL
     implementation ("com.github.bumptech.glide:compose:1.0.0-alpha.1")
+
+    //Firebase-----------------------------------------------------------------------------------
+    implementation ("com.google.firebase:firebase-database-ktx:20.2.2")
+    //Firebase-----------------------------------------------------------------------------------
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
