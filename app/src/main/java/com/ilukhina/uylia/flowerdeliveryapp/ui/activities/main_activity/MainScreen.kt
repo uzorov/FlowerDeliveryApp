@@ -153,7 +153,7 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel:
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()
-                            Log.d("TEST",viewModel.getList().toString())
+                            Log.d("TEST",viewModel.getFlowerList().toString())
                         }
                 )
             }

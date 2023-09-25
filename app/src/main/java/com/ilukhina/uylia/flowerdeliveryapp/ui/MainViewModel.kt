@@ -5,28 +5,51 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
+import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
 import java.util.TreeSet
 
 class MainViewModel: ViewModel() {
 
     private val flowerListLiveData = MutableLiveData<List<FlowerItem>>()
     private val flowerList= sortedSetOf<FlowerItem>({ p0, p1 -> p0.name.compareTo(p1.name) })
+
+    private val orderListLiveData = MutableLiveData<List<OrderItem>>()
+    private val orderList= sortedSetOf<OrderItem>({ p0, p1 -> p0.orderId.compareTo(p1.orderId) })
+
      fun addFlowerItem(flowerItem: FlowerItem) {
         flowerList.add(flowerItem)
-        updateList()
+        updateFlowerList()
     }
 
-    private fun updateList(){
+    private fun updateFlowerList(){
         flowerListLiveData.value = flowerList.toList()
     }
 
-    fun getList(): MutableState<List<FlowerItem>> {
+    fun getFlowerList(): MutableState<List<FlowerItem>> {
         return mutableStateOf(flowerList.toList())
     }
 
     fun deleteFlowerItem(flowerItem: FlowerItem) {
         flowerList.remove(flowerItem)
-        updateList()
+        updateFlowerList()
+    }
+
+    fun addOrderItem(orderItem: OrderItem) {
+        orderList.add(orderItem)
+        updateOrderList()
+    }
+
+    private fun updateOrderList(){
+       orderListLiveData.value = orderList.toList()
+    }
+
+    fun getOrderList(): MutableState<List<OrderItem>> {
+        return mutableStateOf(orderList.toList())
+    }
+
+    fun deleteOrderItem(orderItem: OrderItem) {
+        orderList.remove(orderItem)
+        updateOrderList()
     }
 
 }

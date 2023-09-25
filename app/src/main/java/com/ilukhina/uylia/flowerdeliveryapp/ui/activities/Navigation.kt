@@ -6,24 +6,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.cart_activity.CartScreen
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.MainScreen
+import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.RoutesProvider
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.orders_activity.OrdersScreen
 
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(navController: NavHostController,viewModel: MainViewModel) {
     NavHost(
         navController = navController,
         startDestination = RoutesProvider.ROUTE_TO_THE_MAIN_SCREEN
     ) {
 
         composable(RoutesProvider.ROUTE_TO_THE_MAIN_SCREEN) {
-            MainScreen()
+            MainScreen(viewModel)
         }
         composable(RoutesProvider.ROUTE_TO_THE_SHOPPING_CART_SCREEN) {
-            CartScreen()
+            CartScreen(viewModel)
         }
         composable(RoutesProvider.ROUTE_TO_THE_ORDERS_SCREEN) {
-            OrdersScreen()
+            OrdersScreen(viewModel)
         }
 
 

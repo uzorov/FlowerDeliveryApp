@@ -31,7 +31,7 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.mod
 
 @Composable
 fun CartScreen(viewModel: MainViewModel) {
-    BasketSection(flowerItems = viewModel.getList(), viewModel = viewModel)
+    BasketSection(flowerItems = viewModel.getFlowerList(), viewModel = viewModel)
 }
 
 @Composable
@@ -58,7 +58,7 @@ fun BasketSection(flowerItems: MutableState<List<FlowerItem>>, viewModel: MainVi
                                 .show()
                             Log.d("TEST",
                                 viewModel
-                                    .getList()
+                                    .getFlowerList()
                                     .toString()
                             )
                         }
