@@ -11,6 +11,7 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.mod
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 
 object FlowerProvider {
+    
     val flowerItems : List<FlowerItem> = listOf(
         FlowerItem(
             name = "Радуга",

@@ -1,5 +1,6 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui.firebase
 
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -15,15 +16,14 @@ class ReadWriteData {
 
     }
 
-    fun createNewFlower(flowerId: Int, name: String, price: String, description: String, pictureUrl:String) {
-        val flower = FlowerItem(flowerId, name, price, description, pictureUrl)
-        database.child(flowerId.toString()).setValue(flower).addOnSuccessListener {
-            Toast.makeText(null, "Saved", Toast.LENGTH_SHORT).show()
+    fun createNewFlower(flowerItem: FlowerItem) {
+        val flower = flowerItem
+        database.child(flower.flowerId.toString()).setValue(flower).addOnSuccessListener {
+            Log.d("TAG","Item: $flower")
         }.addOnFailureListener {
             Toast.makeText(null, "Failed", Toast.LENGTH_SHORT).show()
         }
 
     }
 
-    fun readFromFlower()
 }

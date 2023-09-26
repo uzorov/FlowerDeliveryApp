@@ -6,22 +6,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
+import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.ReadWriteData
 import java.util.TreeSet
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val flowerListLiveData = MutableLiveData<List<FlowerItem>>()
-    private val flowerList= sortedSetOf<FlowerItem>({ p0, p1 -> p0.name.compareTo(p1.name) })
+    private val flowerList = sortedSetOf<FlowerItem>({ p0, p1 -> p0.name.compareTo(p1.name) })
 
     private val orderListLiveData = MutableLiveData<List<OrderItem>>()
-    private val orderList= sortedSetOf<OrderItem>({ p0, p1 -> p0.orderId.compareTo(p1.orderId) })
+    private val orderList = sortedSetOf<OrderItem>({ p0, p1 -> p0.orderId.compareTo(p1.orderId) })
 
-     fun addFlowerItem(flowerItem: FlowerItem) {
+    private val postFlower = ReadWriteData()
+
+    fun initPostFlower(postFlower: ReadWriteData, flowerItem: FlowerItem) {
+        postFlower.initializeDbRef()
+        postFlower.createNewFlower(flowerItem)
+    }
+
+    fun addFlowerItem(flowerItem: FlowerItem) {
+        initPostFlower(postFlower, flowerItem)
         flowerList.add(flowerItem)
         updateFlowerList()
     }
 
-    private fun updateFlowerList(){
+    private fun updateFlowerList() {
         flowerListLiveData.value = flowerList.toList()
     }
 
@@ -39,8 +48,8 @@ class MainViewModel: ViewModel() {
         updateOrderList()
     }
 
-    private fun updateOrderList(){
-       orderListLiveData.value = orderList.toList()
+    private fun updateOrderList() {
+        orderListLiveData.value = orderList.toList()
     }
 
     fun getOrderList(): MutableState<List<OrderItem>> {
