@@ -1,12 +1,14 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
-import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.FlowersFirebase
+import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.ReadWriteData
+import java.util.TreeSet
 
 class MainViewModel : ViewModel() {
 
@@ -16,9 +18,11 @@ class MainViewModel : ViewModel() {
     private val orderListLiveData = MutableLiveData<List<OrderItem>>()
     private val orderList = sortedSetOf<OrderItem>({ p0, p1 -> p0.orderId.compareTo(p1.orderId) })
 
-    private val postFlower = FlowersFirebase()
+    private val postFlower = ReadWriteData()
 
-    fun initPostFlower(postFlower: FlowersFirebase, flowerItem: FlowerItem) {
+    private var orderCost: Float = 0.0f
+
+    fun initPostFlower(postFlower: ReadWriteData, flowerItem: FlowerItem) {
         postFlower.initializeDbRef()
         postFlower.createNewFlower(flowerItem)
     }
@@ -26,6 +30,7 @@ class MainViewModel : ViewModel() {
     fun addFlowerItem(flowerItem: FlowerItem) {
         initPostFlower(postFlower, flowerItem)
         flowerList.add(flowerItem)
+        orderCost+=flowerItem.price.toInt()
         updateFlowerList()
     }
 
@@ -39,7 +44,12 @@ class MainViewModel : ViewModel() {
 
     fun deleteFlowerItem(flowerItem: FlowerItem) {
         flowerList.remove(flowerItem)
+        orderCost-=flowerItem.price.toInt()
         updateFlowerList()
+    }
+
+    fun getOrderCost(): MutableState<Float> {
+        return mutableFloatStateOf(orderCost)
     }
 
     fun addOrderItem(orderItem: OrderItem) {

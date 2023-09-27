@@ -77,7 +77,7 @@ fun MainScreenContent(viewModel: MainViewModel) {
                     spacerHeight20()
                     TheFirstFlowerSection(flowerItemsForFirstSection,viewModel)
                     spacerHeight20()
-                    TheSecondFlowerSection(flowerItemsForSecondSection)
+                    TheSecondFlowerSection(flowerItemsForSecondSection,viewModel)
                 }
             }
         }
@@ -162,7 +162,7 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel:
 }
 
 @Composable
-fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>) {
+fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel: MainViewModel) {
     val context = LocalContext.current
 
     Column {
@@ -188,7 +188,7 @@ fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>) {
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .clickable {
-                            //Здесь можно обработать событие добавления в корзину по клику
+                            viewModel.addFlowerItem(flowerItems.value[it])
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()
