@@ -149,11 +149,11 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel:
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .clickable {
-                            viewModel.addFlowerItem(flowerItems.value[it])
+                            viewModel.addBucketItem(flowerItems.value[it])
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()
-                            Log.d("TEST",viewModel.getFlowerList().toString())
+                            Log.d("TEST",viewModel.getBucketList().toString())
                         }
                 )
             }
@@ -188,7 +188,7 @@ fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .clickable {
-                            viewModel.addFlowerItem(flowerItems.value[it])
+                            viewModel.addBucketItem(flowerItems.value[it])
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()

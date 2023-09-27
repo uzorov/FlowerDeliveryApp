@@ -50,7 +50,7 @@ fun CartScreen(viewModel: MainViewModel) {
         },
         content = { innerPadding ->
             BasketSection(
-                flowerItems = viewModel.getFlowerList(),
+                flowerItems = viewModel.getBucketList(),
                 viewModel = viewModel,
                 Modifier.padding(innerPadding)
             )
@@ -163,7 +163,7 @@ fun BasketSection(
                             Log.d(
                                 "TEST",
                                 viewModel
-                                    .getFlowerList()
+                                    .getBucketList()
                                     .toString()
                             )
                         }

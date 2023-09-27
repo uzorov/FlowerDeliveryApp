@@ -7,26 +7,37 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.mod
 
 class FlowersFirebase {
     private lateinit var database: DatabaseReference
-    private lateinit var flower: FlowerItem
-
+    private var flower: FlowerItem ?= null
     fun initializeDbRefFlowers() {
         database = FirebaseDatabase.getInstance().getReference("Flowers")
-
     }
 
-    fun getFlowerFromDB(flowerName: String): FlowerItem {
-        database.child(flowerName).get().addOnSuccessListener {
-            if(it.exists()) {
-                val name = it.child("name").value
-                val price = it.child("price").value
-                val description = it.child("description").value
-                val pictureUrl = it.child("pictureUrl").value
-                flower = FlowerItem(name.toString(), price.toString(), description.toString(), pictureUrl.toString())
+    fun getFlowerFromDB(flowerName: String, callback: (FlowerItem?) -> Unit) {
+        database.child(flowerName).get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                val name = snapshot.child("name").value
+                val price = snapshot.child("price").value
+                val description = snapshot.child("description").value
+                val pictureUrl = snapshot.child("pictureUrl").value
+                val flower = FlowerItem(
+                    name?.toString() ?: "",
+                    price?.toString() ?: "",
+                    description?.toString() ?: "",
+                    pictureUrl?.toString() ?: ""
+                )
+                Log.d("TAG", "Item: $flower Successfully loaded")
+                callback(flower)
+            } else {
+                Log.d("TAG", "Item: $flowerName Not found")
+                callback(null)
             }
-            Log.d("TAG", "Item: $flowerName Successfully loaded")
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             Log.d("TAG", "Item: $flowerName Failed to load")
+            callback(null)
         }
-        return flower
     }
+
+
+
+
 }
