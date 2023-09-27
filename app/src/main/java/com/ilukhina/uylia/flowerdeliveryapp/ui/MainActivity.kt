@@ -1,5 +1,6 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(viewModel: MainViewModel) {

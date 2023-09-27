@@ -24,9 +24,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -136,7 +136,7 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
 
 @Composable
 fun BasketSection(
-    flowerItems: MutableState<List<FlowerItem>>,
+    flowerItems: SnapshotStateList<FlowerItem>,
     viewModel: MainViewModel,
     padding: Modifier
 ) {
@@ -146,9 +146,9 @@ fun BasketSection(
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 7.dp),
         ) {
-            items(flowerItems.value.size) {
+            items(flowerItems.size) {
                 CartItem(
-                    flowerItem = flowerItems.value[it], Modifier
+                    flowerItem = flowerItems[it], Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
@@ -156,7 +156,7 @@ fun BasketSection(
                         .wrapContentWidth()
                         .align(Alignment.CenterHorizontally)
                         .clickable {
-                            viewModel.deleteFlowerItem(flowerItems.value[it])
+                            viewModel.deleteFlowerItem(flowerItems[it])
                             Toast
                                 .makeText(context, "Букет удален из корзины", Toast.LENGTH_SHORT)
                                 .show()
