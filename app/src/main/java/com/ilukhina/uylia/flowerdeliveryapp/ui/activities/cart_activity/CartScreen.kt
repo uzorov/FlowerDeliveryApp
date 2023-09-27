@@ -25,6 +25,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,7 +38,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.cart_activity.components.CartItem
+import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.OrderProvider
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
+import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.OrderFirebase
 
 @Composable
 fun CartScreen(viewModel: MainViewModel) {
@@ -60,7 +63,11 @@ fun CartScreen(viewModel: MainViewModel) {
 
 @Composable
 fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
-
+    val orderItems = remember {
+        mutableStateOf(OrderProvider.orderItems)
+    }
+    val order = OrderFirebase()
+    val context = LocalContext.current
     //Размеры экрана
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -99,7 +106,15 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
                         )
                     })
             }
-            Button(onClick = { /*TODO*/ }, modifier = Modifier.align(Alignment.Bottom).padding(bottom = 8.dp, start = 16.dp)) {
+            Button(onClick = {
+                viewModel.addOrderItem(orderItems.value[1],order)
+                Toast
+                    .makeText(context, "Заказ оформлен", Toast.LENGTH_SHORT)
+                    .show()
+                             }, modifier = Modifier.align(Alignment.Bottom)
+                .padding(bottom = 8.dp, start = 16.dp)
+                )
+            {
                 Text(text = "Оформить заказ", color = Color.White)
             }
         }
