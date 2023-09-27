@@ -5,6 +5,7 @@ data class OrderItem(
     val customerName: String,
     val deliveryAddress: String,
     val flowerItems: List<FlowerItem>,
-    val orderDate: String
+    val orderDate: String,
+    val orderPrice: Int = 0
 )
 
