@@ -44,7 +44,7 @@ fun CartScreen(viewModel: MainViewModel) {
 
     Scaffold(
         bottomBar = {
-            PriceSection()
+            PriceSection(viewModel = viewModel)
         },
         content = { innerPadding ->
             BasketSection(
@@ -59,7 +59,7 @@ fun CartScreen(viewModel: MainViewModel) {
 }
 
 @Composable
-fun PriceSection(sectionHeight: Dp = 150.dp) {
+fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
 
     //Размеры экрана
     val configuration = LocalConfiguration.current
@@ -87,7 +87,7 @@ fun PriceSection(sectionHeight: Dp = 150.dp) {
 
             Column (modifier = Modifier.align(Alignment.Top).padding(vertical = 8.dp), verticalArrangement = Arrangement.Top ) {
 
-                Text("Сумма заказа")
+                Text("Сумма заказа: ${viewModel.getOrderCost().value.toString()}")
 
                 OutlinedTextField(
                     modifier = Modifier.width(screenWidth / 2 + 16.dp),
