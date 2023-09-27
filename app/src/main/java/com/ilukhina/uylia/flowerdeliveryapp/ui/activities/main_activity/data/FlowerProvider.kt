@@ -44,33 +44,33 @@ object FlowerProvider {
             pictureUrl = "https://mykaleidoscope.ru/uploads/posts/2022-06/1656054407_25-mykaleidoscope-ru-p-krasivii-buket-krasnikh-roz-krasivo-foto-26.jpg"
         ),
         FlowerItem(
-            name = "",
-            price = "",
-            description = "",
+            name = "Поцелуй солнца",
+            price = "2000",
+            description = "Прекрасный букет из ярких и солнечных цветов, который принесет радость и тепло в любой день.",
             pictureUrl = "https://mykaleidoscope.ru/uploads/posts/2022-06/1656041290_40-mykaleidoscope-ru-p-krasivie-vesennie-buketi-krasivo-foto-40.jpg"
         ),
         FlowerItem(
-            name = "",
-            price = "",
-            description = "",
+            name = "Нежность",
+            price = "5600",
+            description = "Изысканный букет, воплощающий в себе нежность и чувственность цветов.",
             pictureUrl = "https://static.tildacdn.com/tild6630-3034-4233-a436-636637633665/360835-svetik.jpg"
         ),
         FlowerItem(
-            name = "",
-            price = "",
-            description = "",
-            pictureUrl = "http://vsegda-pomnim.com/uploads/posts/2022-04/1650517541_146-vsegda-pomnim-com-p-krasivii-buket-tsvetov-foto-156.jpg"
+            name = "Всегда помним",
+            price = "1488",
+            description = "Букет, который выражает наши вечные память и уважение.",
+            pictureUrl = "https://detsad68.ru/wp-content/uploads/0/3/a/03ad2778325c41091b5c33d60c2c21a8.jpeg"
         ),
         FlowerItem(
-            name = "",
-            price = "",
-            description = "",
+            name = "Розовая гармония",
+            price = "1337",
+            description = "Изысканный букет из роз в разных оттенках розового цвета, который символизирует гармонию и нежность.",
             pictureUrl = "https://mykaleidoscope.ru/uploads/posts/2022-06/1656345337_37-mykaleidoscope-ru-p-tsvetnie-rozi-buket-krasivo-foto-41.jpg"
         ),
         FlowerItem(
-            name = "",
-            price = "",
-            description = "",
+            name = "Цветочное разнообразие",
+            price = "6969",
+            description = "Яркий и разноцветный букет, который приносит радость и позитивное настроение.",
             pictureUrl = "https://mykaleidoscope.ru/uploads/posts/2022-06/1656033358_33-mykaleidoscope-ru-p-buket-iz-raznikh-tsvetov-krasivo-foto-36.jpg"
         )
     )

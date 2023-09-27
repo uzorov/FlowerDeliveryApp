@@ -1,6 +1,7 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,8 @@ class MainViewModel : ViewModel() {
 
     private val postFlower = ReadWriteData()
 
+    private var orderCost: Float = 0.0f
+
     fun initPostFlower(postFlower: ReadWriteData, flowerItem: FlowerItem) {
         postFlower.initializeDbRef()
         postFlower.createNewFlower(flowerItem)
@@ -27,6 +30,7 @@ class MainViewModel : ViewModel() {
     fun addFlowerItem(flowerItem: FlowerItem) {
         initPostFlower(postFlower, flowerItem)
         flowerList.add(flowerItem)
+        orderCost+=flowerItem.price.toInt()
         updateFlowerList()
     }
 
@@ -40,7 +44,12 @@ class MainViewModel : ViewModel() {
 
     fun deleteFlowerItem(flowerItem: FlowerItem) {
         flowerList.remove(flowerItem)
+        orderCost-=flowerItem.price.toInt()
         updateFlowerList()
+    }
+
+    fun getOrderCost(): MutableState<Float> {
+        return mutableFloatStateOf(orderCost)
     }
 
     fun addOrderItem(orderItem: OrderItem) {
