@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
-import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.ReadWriteData
 import java.util.TreeSet
 
 class MainViewModel : ViewModel() {
@@ -18,17 +17,16 @@ class MainViewModel : ViewModel() {
     private val orderListLiveData = MutableLiveData<List<OrderItem>>()
     private val orderList = sortedSetOf<OrderItem>({ p0, p1 -> p0.orderId.compareTo(p1.orderId) })
 
-    private val postFlower = ReadWriteData()
 
     private var orderCost: Float = 0.0f
 
-    fun initPostFlower(postFlower: ReadWriteData, flowerItem: FlowerItem) {
-        postFlower.initializeDbRef()
-        postFlower.createNewFlower(flowerItem)
-    }
+//    fun initPostFlower(postFlower: ReadWriteData, flowerItem: FlowerItem) {
+//        postFlower.initializeDbRef()
+//        postFlower.createNewFlower(flowerItem)
+//    }
 
     fun addFlowerItem(flowerItem: FlowerItem) {
-        initPostFlower(postFlower, flowerItem)
+//        initPostFlower(postFlower, flowerItem)
         flowerList.add(flowerItem)
         orderCost+=flowerItem.price.toInt()
         updateFlowerList()
