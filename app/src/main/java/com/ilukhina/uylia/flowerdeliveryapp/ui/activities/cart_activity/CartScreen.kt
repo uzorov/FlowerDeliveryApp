@@ -39,7 +39,7 @@ fun CartScreen(viewModel: MainViewModel) {
 
     Scaffold(
         bottomBar = {
-            PriceSection()
+            PriceSection(orderCost = viewModel.getOrderCost().value.toString())
         },
         content = { innerPadding ->
             BasketSection(
@@ -54,7 +54,7 @@ fun CartScreen(viewModel: MainViewModel) {
 }
 
 @Composable
-fun PriceSection(sectionHeight: Dp = 70.dp) {
+fun PriceSection(sectionHeight: Dp = 70.dp, orderCost:String) {
     Surface(
         color = Color.White,
         contentColor = Color.Black
@@ -70,7 +70,7 @@ fun PriceSection(sectionHeight: Dp = 70.dp) {
             verticalAlignment = Alignment.CenterVertically
         )
         {
-            Text("Сумма заказа")
+            Text("Сумма заказа: $orderCost")
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "Оформить заказ", color = Color.White)
             }
