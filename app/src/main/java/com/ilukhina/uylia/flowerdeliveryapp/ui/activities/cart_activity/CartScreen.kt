@@ -25,7 +25,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -77,6 +76,10 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
         mutableStateOf("")
     }
 
+    val clientName = remember {
+        mutableStateOf("")
+    }
+
     Surface(
         color = Color.White,
         contentColor = Color.Black
@@ -103,6 +106,16 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
                     label = {
                         Text(
                             text = "Адрес"
+                        )
+                    })
+
+                OutlinedTextField(
+                    modifier = Modifier.width(screenWidth / 2 + 16.dp),
+                    value = clientName.value,
+                    onValueChange = { it -> clientName.value = it },
+                    label = {
+                        Text(
+                            text = "Имя получателя"
                         )
                     })
             }
