@@ -12,6 +12,7 @@ class OrderFirebase {
         database = FirebaseDatabase.getInstance().getReference("Orders")
     }
 
+    //КИРИЛЛ ЛОХ
     fun createNewOrder(OrderItem: OrderItem) {
         val order = OrderItem
         database.child(order.orderId.toString()).setValue(order).addOnSuccessListener {
