@@ -97,7 +97,7 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
 
             Column (modifier = Modifier.align(Alignment.Top).padding(vertical = 8.dp), verticalArrangement = Arrangement.Top ) {
 
-                Text("Сумма заказа: ${viewModel.getOrderCost().value.toString()}")
+                Text("Сумма заказа: ${viewModel.getOrderCost()}")
 
                 OutlinedTextField(
                     modifier = Modifier.width(screenWidth / 2 + 16.dp),

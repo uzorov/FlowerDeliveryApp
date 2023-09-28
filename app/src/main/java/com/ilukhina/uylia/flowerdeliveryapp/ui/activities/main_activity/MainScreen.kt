@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,7 +42,6 @@ import com.ilukhina.uylia.flowerdeliveryapp.R
 import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.components.FlowerCard
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.FlowerProvider
-import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
@@ -53,6 +51,8 @@ fun MainScreen(viewModel: MainViewModel) {
 
 @Composable
 fun MainScreenContent(viewModel: MainViewModel) {
+
+
     //Можно загрузить из базы данных
         val flowerItemsForFirstSection = remember {
             mutableStateOf(FlowerProvider.flowerItems.take(5))
@@ -75,9 +75,9 @@ fun MainScreenContent(viewModel: MainViewModel) {
                     spacerHeight10()
                     DiscoverFlowersSection()
                     spacerHeight20()
-                    TheFirstFlowerSection(flowerItemsForFirstSection,viewModel)
+                    TheFirstFlowerSection(viewModel)
                     spacerHeight20()
-                    TheSecondFlowerSection(flowerItemsForSecondSection,viewModel)
+                    TheSecondFlowerSection(viewModel)
                 }
             }
         }
@@ -123,8 +123,9 @@ fun DiscoverFlowersSection() {
 }
 
 @Composable
-fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel: MainViewModel) {
+fun TheFirstFlowerSection(viewModel: MainViewModel) {
     val context = LocalContext.current
+    val flowers = viewModel.getFlowersList().take(5)
 
     Column {
         Text(
@@ -139,9 +140,9 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel:
         LazyRow(
             contentPadding = PaddingValues(horizontal = 7.dp),
         ) {
-            items(flowerItems.value.size) {
+            items(flowers.size) {
                 FlowerCard(
-                    flowerItem = flowerItems.value[it], Modifier
+                    flowerItem = flowers[it], Modifier
                         .padding(end = 7.5.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
@@ -149,7 +150,7 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel:
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .clickable {
-                            viewModel.addBucketItem(flowerItems.value[it])
+                            viewModel.addBucketItem(flowers[it])
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()
@@ -162,8 +163,9 @@ fun TheFirstFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel:
 }
 
 @Composable
-fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel: MainViewModel) {
+fun TheSecondFlowerSection(viewModel: MainViewModel) {
     val context = LocalContext.current
+    val flowers = viewModel.getFlowersList().takeLast(5)
 
     Column {
         Text(
@@ -178,9 +180,9 @@ fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel
         LazyRow(
             contentPadding = PaddingValues(horizontal = 7.dp),
         ) {
-            items(flowerItems.value.size) {
+            items(flowers.size) {
                 FlowerCard(
-                    flowerItem = flowerItems.value[it], Modifier
+                    flowerItem = flowers[it], Modifier
                         .padding(end = 7.5.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
@@ -188,7 +190,7 @@ fun TheSecondFlowerSection(flowerItems: MutableState<List<FlowerItem>>,viewModel
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .clickable {
-                            viewModel.addBucketItem(flowerItems.value[it])
+                            viewModel.addBucketItem(flowers[it])
                             Toast
                                 .makeText(context, "Букет добавлен в корзину", Toast.LENGTH_SHORT)
                                 .show()
