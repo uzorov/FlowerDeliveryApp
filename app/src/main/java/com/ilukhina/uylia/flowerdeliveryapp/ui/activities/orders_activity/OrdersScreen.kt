@@ -22,10 +22,7 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.orders_activity.compon
 
 @Composable
 fun OrdersScreen(viewModel: MainViewModel) {
-    val orderItems = remember {
-        mutableStateOf(OrderProvider.orderItems)
-    }
-    OrdersContent(orderItems)
+    OrdersContent(viewModel.getOrderList())
 }
 
 @Composable

@@ -39,7 +39,10 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.cart_activity.components.CartItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.OrderProvider
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
+import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.OrderFirebase
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun CartScreen(viewModel: MainViewModel) {
@@ -62,9 +65,9 @@ fun CartScreen(viewModel: MainViewModel) {
 
 @Composable
 fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
-    val orderItems = remember {
-        mutableStateOf(OrderProvider.orderItems)
-    }
+//    val orderItems = remember {
+//        mutableStateOf(OrderProvider.orderItems)
+//    }
     val order = OrderFirebase()
     val context = LocalContext.current
     //Размеры экрана
@@ -120,7 +123,18 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
                     })
             }
             Button(onClick = {
-                viewModel.addOrderItem(orderItems.value[1],order)
+                val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+                val currentDate = sdf.format(Date())
+                var orderItem = OrderItem(
+                    customerName = clientName.value,
+                    deliveryAddress = clientAddress.value,
+                    flowerItems = viewModel.getBucketList(),
+                    orderDate = currentDate,
+                    orderId = viewModel.getOrderIdList().last()+1,
+                    orderPrice = viewModel.getOrderCost().toInt()
+                )
+                Log.d("TEST",orderItem.toString())
+                viewModel.addOrderItem(orderItem,order)
                 Toast
                     .makeText(context, "Заказ оформлен", Toast.LENGTH_SHORT)
                     .show()

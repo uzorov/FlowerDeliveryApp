@@ -1,6 +1,7 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui
 
 import FlowerNames
+import OrderIds
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +23,7 @@ class MainViewModel : ViewModel() {
 
     private val bucketListMutableStateData = SnapshotStateList<FlowerItem>()
 
+    private val orderListMutableStateData = SnapshotStateList<OrderItem>()
 
     private var flowerFb : FlowersFirebase = FlowersFirebase()
 
@@ -29,9 +31,13 @@ class MainViewModel : ViewModel() {
         addFlowersItem(flower)
     }
 
+    private val getOrders: (OrderItem?) -> Unit = { order ->
+        if (order != null) {
+            orderListMutableStateData.add(order)
+        }
+    }
 
-    private val orderListLiveData = MutableLiveData<List<OrderItem>>()
-    private val orderList = sortedSetOf<OrderItem>({ p0, p1 -> p0.orderId.compareTo(p1.orderId) })
+
     private val orderFb = OrderFirebase()
 
     private var orderCost: Float = 0.0f
@@ -41,6 +47,7 @@ class MainViewModel : ViewModel() {
         Log.d("DatabaseError", "Trying to launch loadFlowers()")
         viewModelScope.launch {
             loadFlowers()
+            loadOrders()
         }
         Log.d("DatabaseError", "Successfully launched loadFlowers()")
     }
@@ -54,6 +61,7 @@ class MainViewModel : ViewModel() {
         flowerFb.getAllFlowerFromDB(flowerNames, getFlowers)
 
     }
+
 
     private fun addFlowersItem(flowerItem: FlowerItem?) {
         Log.d("TAG", flowerItem.toString())
@@ -91,24 +99,32 @@ class MainViewModel : ViewModel() {
     }
 
     fun addOrderItem(orderItem: OrderItem, orderFirebase: OrderFirebase) {
-        orderList.add(orderItem)
+        orderListMutableStateData.add(orderItem)
         orderFirebase.initializeDbRefOrders()
         orderFirebase.createNewOrder(orderItem)
 
-        updateOrderList()
     }
 
-    private fun updateOrderList() {
-        orderListLiveData.value = orderList.toList()
+
+    private fun loadOrders() {
+        orderFb.initializeDbRefOrders()
+        val orderIds = OrderIds.orderIds
+        for(i in orderIds){
+            orderFb.getOrderFromDB(i,getOrders)
+        }
     }
 
     fun getOrderList(): MutableState<List<OrderItem>> {
-        return mutableStateOf(orderList.toList())
+        return mutableStateOf(orderListMutableStateData.toList())
     }
 
-    fun deleteOrderItem(orderItem: OrderItem) {
-        orderList.remove(orderItem)
-        updateOrderList()
+    fun getOrderIdList(): List<Int> {
+        val IdList = mutableListOf<Int>()
+        for(i in orderListMutableStateData){
+            IdList += i.orderId
+        }
+        return IdList
     }
+
 
 }

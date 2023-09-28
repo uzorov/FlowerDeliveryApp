@@ -33,16 +33,31 @@ class OrderFirebase {
                 val flowerItems = snapshot.child("flowerItems")
                 val orderDate = snapshot.child("orderDate").value
                 val orderPrice = snapshot.child("orderPrice").value
-                var flowerItem = mutableListOf<FlowerItem>()
-                flowerItems.getValue<List<FlowerItem>>()
+                val flowerItemList = mutableListOf<FlowerItem>()
+                Log.d("ORDERRRR",customerName.toString())
+                Log.d("ORDERRRR",customerName.toString())
+                Log.d("ORDERRRR",deliveryAddress.toString())
+                Log.d("ORDERRRR",orderDate.toString())
+                Log.d("ORDERRRR",orderPrice.toString())
+                flowerItems.children.forEach { childSnapshot ->
+                    // Извлеките значения полей из childSnapshot
+                    val name = childSnapshot.child("name").value as String
+                    val price = childSnapshot.child("price").value as String
+                    val description = childSnapshot.child("description").value as String
+                    val pictureUrl = childSnapshot.child("pictureUrl").value as String
+                    val flowerItem = FlowerItem(name, price, description, pictureUrl)
+                    flowerItemList.add(flowerItem)
+                }
+                Log.d("ORDERRRR",flowerItemList.toString())
                 order = OrderItem(
-                    orderId = (orderId ?: 0) as Int,
+                    orderId = (orderId?.toString())!!.toInt(),
                     customerName?.toString() ?: "",
                     deliveryAddress?.toString() ?: "",
-                    flowerItems.getValue<List<FlowerItem>>() ?: listOf(),
+                    flowerItemList,
                     orderDate.toString(),
-                    orderPrice = (orderPrice ?: 0) as Int
+                    orderPrice = (orderPrice?.toString())!!.toInt()
                 )
+                Log.d("ORDERRRR", "2"+order.toString())
                 callback(order)
             }
             Log.d("TAG", "Order: $orderID Successfully loaded")
