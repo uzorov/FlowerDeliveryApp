@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.cart_activity.components.CartItem
-import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.OrderProvider
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.OrderFirebase
@@ -64,7 +63,7 @@ fun CartScreen(viewModel: MainViewModel) {
 }
 
 @Composable
-fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
+fun PriceSection(sectionHeight: Dp = 150.dp, viewModel: MainViewModel) {
 //    val orderItems = remember {
 //        mutableStateOf(OrderProvider.orderItems)
 //    }
@@ -98,7 +97,12 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
         )
         {
 
-            Column (modifier = Modifier.align(Alignment.Top).padding(vertical = 8.dp), verticalArrangement = Arrangement.Top ) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Top)
+                    .padding(vertical = 8.dp),
+                verticalArrangement = Arrangement.Top
+            ) {
 
                 Text("Сумма заказа: ${viewModel.getOrderCost()}")
 
@@ -122,25 +126,31 @@ fun PriceSection(sectionHeight: Dp = 150.dp,viewModel: MainViewModel) {
                         )
                     })
             }
-            Button(onClick = {
-                val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-                val currentDate = sdf.format(Date())
-                var orderItem = OrderItem(
-                    customerName = clientName.value,
-                    deliveryAddress = clientAddress.value,
-                    flowerItems = viewModel.getBucketList(),
-                    orderDate = currentDate,
-                    orderId = viewModel.getOrderIdList().last()+1,
-                    orderPrice = viewModel.getOrderCost().toInt()
-                )
-                Log.d("TEST",orderItem.toString())
-                viewModel.addOrderItem(orderItem,order)
-                Toast
-                    .makeText(context, "Заказ оформлен", Toast.LENGTH_SHORT)
-                    .show()
-                             }, modifier = Modifier.align(Alignment.Bottom)
-                .padding(bottom = 8.dp, start = 16.dp)
-                )
+            Button(
+                onClick = {
+                    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+                    val currentDate = sdf.format(Date())
+                    var orderItem = OrderItem(
+                        customerName = clientName.value,
+                        deliveryAddress = clientAddress.value,
+                        flowerItems = viewModel.getBucketList(),
+                        orderDate = currentDate,
+                        orderId = try {
+                            (viewModel.getIDs().last()) + 1
+                        } catch (err: NoSuchElementException) {
+                            1
+                        },
+                        orderPrice = viewModel.getOrderCost().toInt()
+                    )
+                    Log.d("TEST", orderItem.toString())
+                    viewModel.addOrderItem(orderItem, order)
+                    Toast
+                        .makeText(context, "Заказ оформлен", Toast.LENGTH_SHORT)
+                        .show()
+                }, modifier = Modifier
+                    .align(Alignment.Bottom)
+                    .padding(bottom = 8.dp, start = 16.dp)
+            )
             {
                 Text(text = "Оформить заказ", color = Color.White)
             }

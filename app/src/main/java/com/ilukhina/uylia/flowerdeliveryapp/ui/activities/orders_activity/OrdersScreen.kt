@@ -9,19 +9,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ilukhina.uylia.flowerdeliveryapp.ui.MainViewModel
-import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.OrderProvider
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.OrderItem
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.orders_activity.components.OrderCard
 
 @Composable
 fun OrdersScreen(viewModel: MainViewModel) {
+
+
+
     OrdersContent(viewModel.getOrderList())
 }
 

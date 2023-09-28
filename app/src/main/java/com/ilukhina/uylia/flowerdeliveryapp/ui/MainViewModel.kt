@@ -1,12 +1,11 @@
 package com.ilukhina.uylia.flowerdeliveryapp.ui
 
 import FlowerNames
-import OrderIds
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.data.model.FlowerItem
@@ -15,8 +14,7 @@ import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.FlowersFirebase
 import com.ilukhina.uylia.flowerdeliveryapp.ui.firebase.OrderFirebase
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
-
+class MainViewModel(private val context: Context) : ViewModel() {
 
 
     private var flowerListMutableStateData = SnapshotStateList<FlowerItem>()
@@ -25,7 +23,7 @@ class MainViewModel : ViewModel() {
 
     private val orderListMutableStateData = SnapshotStateList<OrderItem>()
 
-    private var flowerFb : FlowersFirebase = FlowersFirebase()
+    private var flowerFb: FlowersFirebase = FlowersFirebase()
 
     private val getFlowers: (FlowerItem?) -> Unit = { flower ->
         addFlowersItem(flower)
@@ -50,6 +48,27 @@ class MainViewModel : ViewModel() {
             loadOrders()
         }
         Log.d("DatabaseError", "Successfully launched loadFlowers()")
+    }
+
+    fun getIDs(): MutableList<Int> {
+        val prefs = context.getSharedPreferences("ids", Context.MODE_PRIVATE)
+        val idsArraySize = prefs.getInt("idsArraySize", 0)
+        val ids = IntArray(idsArraySize)
+        for (i in 0 until idsArraySize) {
+            ids[i] = prefs.getInt("id$i", 0)
+        }
+        return ids.toMutableList()
+    }
+
+    private fun updateIDs(ids: MutableList<Int>) {
+        val prefs = context.getSharedPreferences("ids", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putInt("idsArraySize", ids.size)
+        for (i in ids.indices) {
+            editor.putInt("id$i", ids[i])
+        }
+        editor.apply()
+
     }
 
     private fun loadFlowers() {
@@ -99,6 +118,13 @@ class MainViewModel : ViewModel() {
     }
 
     fun addOrderItem(orderItem: OrderItem, orderFirebase: OrderFirebase) {
+
+        val updatedList = getIDs()
+        updatedList?.add(orderItem.orderId)
+        if (updatedList != null) {
+            updateIDs(updatedList)
+        }
+
         orderListMutableStateData.add(orderItem)
         orderFirebase.initializeDbRefOrders()
         orderFirebase.createNewOrder(orderItem)
@@ -108,22 +134,16 @@ class MainViewModel : ViewModel() {
 
     private fun loadOrders() {
         orderFb.initializeDbRefOrders()
-        val orderIds = OrderIds.orderIds
-        for(i in orderIds){
-            orderFb.getOrderFromDB(i,getOrders)
+        val orderIds = getIDs()
+        if (orderIds != null) {
+            for (i in orderIds) {
+                orderFb.getOrderFromDB(i, getOrders)
+            }
         }
     }
 
     fun getOrderList(): MutableState<List<OrderItem>> {
         return mutableStateOf(orderListMutableStateData.toList())
-    }
-
-    fun getOrderIdList(): List<Int> {
-        val IdList = mutableListOf<Int>()
-        for(i in orderListMutableStateData){
-            IdList += i.orderId
-        }
-        return IdList
     }
 
 

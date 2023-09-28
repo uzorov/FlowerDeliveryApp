@@ -20,7 +20,7 @@ object OrderProvider {
         ))
 
     val orderItems:List<OrderItem> = listOf(
-        OrderItem(1,"Ivan","dom2", flowerItems,"25.09.23"),
-        OrderItem(2,"Ivan","dom2", flowerItems,"24.09.23")
+        OrderItem(1,"Илюхина Юлия","г. Москва ул. Весенняя д.45 кв. 1", flowerItems.take(5),"25.09.23"),
+        OrderItem(2,"Илюхина Юлия","г. Москва ул. 9-Парковая д. 12", flowerItems.takeLast(5),"24.09.23")
     )
 }

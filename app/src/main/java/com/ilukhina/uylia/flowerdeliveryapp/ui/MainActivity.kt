@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.Navigation
 import com.ilukhina.uylia.flowerdeliveryapp.ui.activities.main_activity.components.BottomNavigationBar
@@ -30,7 +29,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = MainViewModel(this)
         setContent {
             FlowerDeliveryAppTheme {
                 // A surface container using the 'background' color from the theme
